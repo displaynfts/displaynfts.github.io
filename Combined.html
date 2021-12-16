@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<style>
+* {margin:0; padding:0;} /* to remove the top and left whitespace */
+html, body {width:100%; height:100%;} /* just to be sure these are full screen*/
+myCanvas { display:block;} /* To remove the scrollbars */
+</style>
+<body>
+<section>
+<div id="canvasesdiv" style="position:relative; width:100%; height:100%">
+<canvas id="layer1" style="z-index: 1;position:absolute;left:0px;top:0px;"></canvas>
+<canvas id="layer2" style="z-index: 2;position:absolute;left:0px;top:0px;"></canvas>
+<canvas id="layer3" style="z-index: 3;position:absolute;left:0px;top:0px;"></canvas>
+<canvas id="layer4" style="z-index: 4;position:absolute;left:0px;top:0px;"></canvas>
+</div>
+
+<script>
+//----------------------------------------------------------------
+Math.seed=function(s){
+	var mask=0xffffffff,m_w=(123456789+s)&mask,m_z=(987654321-s)&mask;
+	return function(){m_z=(36969*(m_z&65535)+(m_z>>>16))&mask;m_w=(18000*(m_w&65535)+(m_w>>>16))&mask;
+	                    var result=((m_z<<16)+(m_w&65535))>>>0;result/=4294967296;return result;}
+};
+function F(tt,sh,T){var aa=tt/T; aa=(aa-Math.floor(aa))*12; var i=Math.floor(aa); var v=(sh[i+1]-sh[i])*(aa-i)+sh[i]; return v;};
+shDN1=[0,0,0,0,0,0,0,0,0,0,0,0,0]; shDN2=[24,24,24,24,24,24,24,24,24,24,24,24,24];UTC=-2;
+d = new Date(Date.now());m=d.getUTCMonth();day=d.getUTCDate();h=d.getUTCHours();year=d.getUTCFullYear();dia=m*30+day+h/24;
+h=h+UTC;if(h<0){h=24+h};if(h>24){h=h-24};t1=F(dia,shDN1,365);t2=F(dia,shDN2,365);
+
+function M0001I1() {
+}
+
+function M0001D1() {
+let dianoche;
+if(h>t1 && h<t2){dianoche=1;}else{dianoche=0;}
+let WIDTH=window.innerWidth;
+let HEIGHT=window.innerHeight;
+M0001ctx1.clearRect(0, 0, WIDTH, HEIGHT);
+if(dianoche==1){M0001ctx1.fillStyle="rgba(0, 156, 255,1)";}else{M0001ctx1.fillStyle='rgba(0,0,0,1)';}
+M0001ctx1.beginPath();
+M0001ctx1.rect(0,0,WIDTH,HEIGHT);
+M0001ctx1.closePath();
+M0001ctx1.fill();
+setTimeout(function(){window.requestAnimationFrame(function(){M0001D1()})}, 5000);
+}
+
+function M0001I2() {
+ST=Date.UTC(2021,10,20,0,0) //dia de luna llena de referencia. El mes va -1.
+}
+
+function M0001D2(r,xo,yo) {
+random=Math.seed(1234);
+let dianoche;
+if(h>t1 && h<t2){dianoche=1;}else{dianoche=0;}
+let WIDTH=window.innerWidth;
+let HEIGHT=window.innerHeight;
+let xc=xo*WIDTH; 
+let yc=yo*HEIGHT;
+let rad=Math.min(WIDTH,HEIGHT)*r;
+
+M0001ctx2.clearRect(0, 0, WIDTH, HEIGHT);
+M0001ctx2.translate(xc, yc);
+
+if(dianoche==0){
+	M0001ctx2.strokeStyle = 'silver';
+	for (let i = 0; i < 900; i++) {
+	M0001ctx2.lineWidth = (random()*0.45+0.25)*rad/80;
+	let angle1 = random()*3.1416*2;
+	let angle2 = random()*3.1416*2;
+	M0001ctx2.beginPath();
+	M0001ctx2.moveTo(Math.cos(angle1) * rad, Math.sin(angle1) * rad);
+	M0001ctx2.lineTo(Math.cos(angle2) * rad, Math.sin(angle2) * rad);
+	M0001ctx2.stroke();
+	}
+
+	M0001ctx2.strokeStyle = 'black';
+	M0001ctx2.lineWidth = rad/200;
+	M0001ctx2.fillStyle = "rgba(0, 0, 0, 0.8)";
+
+	// para que esté en días dividir por 24*60*60 = 86400
+	let TL=(((Date.now()-ST)/1000/86400) - Math.floor(((Date.now()-ST)/1000/86400) / 29.53)*29.53);
+	if(TL < 14.765){fase=TL/14.765*30;ang=0;}else{fase=(29.53-TL)/14.765*30;ang=180;}
+	M0001ctx2.rotate(ang * Math.PI / 180);
+	//let fase = 0; // Va de 0 a 30 y luego rota 180 y va de 30 a 0; 29,53dias un ciclo completo
+	let angle = Math.PI/30 * fase + Math.PI/1000
+
+	if(angle<Math.PI/2){
+	M0001ctx2.beginPath();
+	M0001ctx2.arc(0, 0, rad, -Math.PI/2, Math.PI/2, false);
+	M0001ctx2.arc(0 - rad * Math.tan(angle), 0, rad/Math.cos(angle), Math.PI/2-angle, angle-Math.PI/2, true);
+	M0001ctx2.closePath();
+	M0001ctx2.fill();
+	M0001ctx2.stroke();
+	}
+
+	if(angle>Math.PI/2){
+	angle = Math.PI/2 - (angle - Math.PI/2)
+	M0001ctx2.beginPath();
+	M0001ctx2.arc(0, 0, rad, -Math.PI/2, Math.PI/2, false);
+	M0001ctx2.arc(0 + rad * Math.tan(angle), 0, rad/Math.cos(angle), Math.PI/2-angle, angle-Math.PI/2, false);
+	M0001ctx2.closePath();
+	M0001ctx2.fill();
+	M0001ctx2.stroke();
+	}
+}else{
+	M0001ctx2.beginPath();
+	let grd = M0001ctx2.createRadialGradient(0,0,rad/10,0,0,rad*1.5);
+	grd.addColorStop(0,"rgb(255,204,51)");
+	grd.addColorStop(1,"rgb(252,150,1)");
+	M0001ctx2.fillStyle=grd;
+	M0001ctx2.ellipse(0,0,rad,rad,0,0,Math.PI*2);
+	M0001ctx2.fill();
+}
+
+M0001ctx2.setTransform(1, 0, 0, 1, 0, 0);
+setTimeout(function(){window.requestAnimationFrame(function(){M0001D2(r,xo,yo)})}, 43200);
+}
+//----------------------------------------------------------------
+</script>
+
+<script>
+//----------------------------------------------------------------
+Math.seed=function(s){
+	var mask=0xffffffff,m_w=(123456789+s)&mask,m_z=(987654321-s)&mask;
+	return function(){m_z=(36969*(m_z&65535)+(m_z>>>16))&mask;m_w=(18000*(m_w&65535)+(m_w>>>16))&mask;
+	                    var result=((m_z<<16)+(m_w&65535))>>>0;result/=4294967296;return result;}
+};
+d = new Date(Date.now());m=d.getUTCMonth();day=d.getUTCDate();h=d.getUTCHours();year=d.getUTCFullYear();dia=m*30+day+h/24;
+function F(tt,sh,T){var aa=tt/T; aa=(aa-Math.floor(aa))*12; var i=Math.floor(aa); var v=(sh[i+1]-sh[i])*(aa-i)+sh[i]; return v;};
+shMC=[1,1,0,1,1,1,1,1,1,1,1,1,1];
+
+var baseColor = {r: 0,g: 0,b: 250}
+var pistilColor = {r: 250, g: 0, b: 0}
+var petalControlPoints = {cp1x: 42,cp1y: 0, cp2x: 31,cp2y: 14,cp3x: 4,cp3y: 0, cp4x: 0, cp4y: 0}
+var pistilRadius= 20;
+var stemscolor = {r: 0,g: 200,b: 0}
+var stemscount = 8;
+
+const axiom = 'F';
+let sentence = axiom;
+let count = 0;
+const rules = [];
+rules[0] = {
+    a: 'F',
+    b: 'Go[+F][-F]GF*'
+};
+
+rules[1] = {
+    a: 'G',
+    b: 'GG'
+};
+
+function P0001D1() {
+	let flo;
+	flo = F(dia,shMC,365);
+    random=Math.seed(0);
+	P0001ctx1.setTransform(1, 0, 0, 1, 0, 0);
+	P0001ctx1.clearRect(0, 0, window.innerWidth, window.innerHeight);
+	len = 0.5 * ((window.innerHeight / 2.15) - window.innerHeight / 2.6) + window.innerHeight / 2.6;
+	for (i = stemscount - 1; i > 0; i--) {len *= 0.5;};
+    angle = Math.PI/180*(random() * 30 + 2);
+    P0001ctx1.setTransform(1, 0, 0, 1, 0, 0);
+    P0001ctx1.translate(WIDTH / 2, HEIGHT - 15);
+    for (var i = 0; i < sentence.length; i++) {
+        P0001ctx1.lineWidth = len/2; //1.25;
+        P0001ctx1.strokeStyle = `rgb(${stemscolor.r},${stemscolor.g},${stemscolor.b})`;;
+        var current = sentence.charAt(i);
+        if (current == 'F' || current == 'G') {
+			P0001ctx1.beginPath();
+			P0001ctx1.moveTo(0, 0);
+			P0001ctx1.lineTo(0, -len);
+			P0001ctx1.stroke();
+            P0001ctx1.translate(0, -len);
+        } else if (current == '*') {
+            if (i % 1 === 0) {
+                let aux = random() * (len / (random() * 5 + 5));
+				P0001ctx1.scale(aux*flo**5,aux*flo**5);
+                //Flores;
+				let brightOff = (random() * 400 - 200);
+				//if(flo==1){
+				P0001ctx1.strokeStyle = `rgba(${baseColor.r},${baseColor.g},${baseColor.b},50)`;;
+				P0001ctx1.lineWidth = 0.25;				
+				P0001ctx1.fillStyle = `rgb(${baseColor.r + brightOff},${baseColor.g + brightOff},${baseColor.b + brightOff})`;
+				let petalCount = 4;
+				for (let m = 0; m < petalCount * 2; m++) {
+					//Petalos;
+					let fcp = petalControlPoints;
+					P0001ctx1.beginPath();
+					P0001ctx1.moveTo(fcp.cp1x, fcp.cp1y);
+					P0001ctx1.bezierCurveTo(fcp.cp2x, fcp.cp2y, fcp.cp3x, fcp.cp3y, fcp.cp4x, fcp.cp4y);
+					P0001ctx1.bezierCurveTo(fcp.cp3x, -fcp.cp3y, fcp.cp2x, -fcp.cp2y, fcp.cp1x, fcp.cp1y);
+					P0001ctx1.fill(); P0001ctx1.stroke();									
+					P0001ctx1.rotate(Math.PI / petalCount);
+				}
+				P0001ctx1.fillStyle = `rgb(${pistilColor.r},${pistilColor.g},${pistilColor.b})`;
+				P0001ctx1.beginPath();P0001ctx1.ellipse(0, 0, pistilRadius/2, pistilRadius/2, 0, 0, 2*Math.PI);
+				P0001ctx1.fill();
+				//}
+            }
+        } else if (current == '+') {
+            let positiveRotation = angle * random() * 2.8;
+            P0001ctx1.rotate(positiveRotation);
+        } else if (current == '-') {
+            let negativeRotation = -angle * random() * 2.8;
+            P0001ctx1.rotate(negativeRotation);
+        } else if (current == '[') {
+			P0001ctx1.save();
+        } else if (current == ']') {
+			P0001ctx1.restore();
+            count++;
+        }
+    }
+    if (i >= sentence.length) {
+        finished = true;
+    }
+	setTimeout(function(){window.requestAnimationFrame(P0001D1);}, 86400000)
+}
+
+function P0001I1() {
+    for (i = stemscount - 1; i > 0; i--) {
+		var nextSentence = '';
+		for (var j = 0; j < sentence.length; j++) {
+			var current = sentence.charAt(j);
+			var found = false;
+			for (var k = 0; k < rules.length; k++) {
+				if (current == rules[k].a) {
+					found = true;
+					nextSentence += rules[k].b;
+					break;
+				}
+			}
+			if (!found) {
+				nextSentence += current;
+			}
+		}
+		sentence = nextSentence;	
+	}
+}
+
+//----------------------------------------------------------------
+</script>
+
+<script>
+//----------------------------------------------------------------
+var rnd = Math.random, flr = Math.floor;
+
+function rndNum(num) {return rnd() * num + 1;}
+
+function vector(x, y) {this.x = x;this.y = y;this.add = function(vec2) {this.x = this.x + vec2.x;this.y = this.y + vec2.y;}}
+
+function particle(pos, vel) {
+  this.pos = new vector(pos.x, pos.y);this.vel = vel;this.dead = false;this.start = 0;
+
+  this.update = function(time) {
+    let timeSpan = time - this.start;
+
+    if (timeSpan > 500) {  // 500 tiempo de vida de la lluvia de chispas
+      this.dead = true;
+    }
+
+    if (!this.dead) {
+      this.pos.add(this.vel);
+      this.vel.y = this.vel.y + gravity;
+    }
+  };
+
+  this.FW0001D1 = function() {
+    if (!this.dead) {
+      drawDot(this.pos.x, this.pos.y, 2); //son las chispas
+    }
+  }
+
+}
+
+function firework(x, y) {
+
+  this.pos = new vector(x, y);
+  this.vel = new vector(0, -rndNum(15) - 3);
+  this.color = 'hsl(' + rndNum(360) + ', 100%, 50%)'
+  this.size = 4;
+  this.dead = false;
+  this.start = 0;
+  let exParticles = [];
+    exPLen = 100; // en cuantas particulas explota
+
+  let rootShow = true;
+
+  this.update = function(time) {
+    if (this.dead) {
+      return;
+    }
+
+    rootShow = this.vel.y < 0;
+
+    if (rootShow) {
+      this.pos.add(this.vel);
+      this.vel.y = this.vel.y + gravity;
+    } else {
+      if (exParticles.length === 0) {
+        flash = true;
+		auxR = Math.random()+1;
+        for (let i = 0; i < exPLen; i++) {
+          exParticles.push(new particle(this.pos, new vector((-rndNum(10) + 5)*auxR, (-rndNum(10) + 5)*auxR)));
+          exParticles[exParticles.length - 1].start = time;
+        }
+      }
+      let numOfDead = 0;
+      for (let i = 0; i < exPLen; i++) {
+        let p = exParticles[i];
+        p.update(time);
+        if (p.dead) {
+          numOfDead++;
+        }
+      }
+
+      if (numOfDead === exPLen) {
+        this.dead = true;
+      }
+
+    }
+  }
+
+  this.FW0001D1 = function() {
+    if (this.dead) {
+      return;
+    }
+
+    FW0001ctx1.fillStyle = this.color;
+    if (rootShow) {
+      drawDot(this.pos.x+Math.random()*10, this.pos.y, this.size);
+    } else {
+      for (let i = 0; i < exPLen; i++) {
+        let p = exParticles[i];
+        p.FW0001D1();
+      }
+    }
+  }
+
+}
+
+function drawDot(x, y, size) {
+  FW0001ctx1.beginPath();
+
+  FW0001ctx1.arc(x, y, size, 0, Math.PI * 2);
+  FW0001ctx1.fill();
+
+  FW0001ctx1.closePath();
+}
+
+var fireworks = [],
+  gravity = 0.2,
+  snapTime = 50,
+  flash = false;
+
+// año, mes, dia, hora, min
+function FW0001I1(a1,m1,d1,h1,mm1,a2,m2,d2,h2,mm2,UTC,Wi,Wf) {
+  let numOfFireworks = 10;
+  WIDTHi = Wi*window.innerWidth; WIDTHf = Wf*window.innerWidth;
+  Wpi=Wi; Wpf=Wf;
+  for (let i = 0; i < numOfFireworks; i++) {
+    fireworks.push(new firework(rndNum((WIDTHf-WIDTHi))+WIDTHi, HEIGHT));
+  }
+  inic = Date.UTC(a1,m1-1,d1,h1,mm1)-UTC*60*60*1000;
+  fin = Date.UTC(a2,m2-1,d2,h2,mm2)-UTC*60*60*1000;
+}
+
+function update(time) {
+  for (let i = 0, len = fireworks.length; i < len; i++) {
+    let p = fireworks[i];
+    p.update(time);
+  }
+}
+
+function FW0001D1(time) {
+  if((Date.now() > inic)&&(Date.now() < fin) ){  
+  update(time);
+  FW0001ctx1.clearRect(0, 0, WIDTH, HEIGHT);  
+  WIDTHi = Wpi*window.innerWidth; WIDTHf = Wpf*window.innerWidth;
+  if (flash) {flash = false;}
+  FW0001ctx1.fillStyle = 'blue';
+  for (let i = 0, len = fireworks.length; i < len; i++) {
+    let p = fireworks[i];
+    if (p.dead) {
+      fireworks[i] = new firework(rndNum((WIDTHf-WIDTHi))+WIDTHi, HEIGHT);
+      p = fireworks[i];
+      p.start = time;
+    }
+    p.FW0001D1();
+  }
+  }else{FW0001ctx1.clearRect(0, 0, WIDTH, HEIGHT);}
+  window.requestAnimationFrame(FW0001D1);
+}
+//----------------------------------------------------------------
+</script>
+
+<script>
+const canvas1 = document.getElementById('layer1'); const M0001ctx1 = canvas1.getContext('2d');
+const canvas2 = document.getElementById('layer2'); const M0001ctx2 = canvas2.getContext('2d');
+const canvas3 = document.getElementById('layer3'); const FW0001ctx1 = canvas3.getContext('2d');
+const canvas4 = document.getElementById('layer4'); const P0001ctx1 = canvas4.getContext('2d');
+var WIDTH = window.innerWidth; var HEIGHT = window.innerHeight;
+canvas1.width = WIDTH; canvas1.height = HEIGHT;
+canvas2.width = WIDTH; canvas2.height = HEIGHT;
+canvas3.width = WIDTH; canvas3.height = HEIGHT;
+canvas4.width = WIDTH; canvas4.height = HEIGHT;
+  
+function resizeCanvas() {
+  WIDTH = window.innerWidth; HEIGHT = window.innerHeight;
+  canvas1.width = WIDTH; canvas1.height = HEIGHT;
+  canvas2.width = WIDTH; canvas2.height = HEIGHT;
+  canvas3.width = WIDTH; canvas3.height = HEIGHT;
+  canvas4.width = WIDTH; canvas4.height = HEIGHT;
+  location.reload();
+}
+
+function InitAll(){
+ST=Date.now();
+M0001I1();
+M0001I2();
+FW0001I1(2021,1,1,1,00,2021,12,31,23,59,-3,0.25,0.75);
+P0001I1();
+DrawAll();
+}
+
+function DrawAll(){
+M0001D1();
+M0001D2(0.1,0.70,0.25);
+FW0001D1();
+P0001D1();
+}
+
+// resize the canvas to fill browser window dynamically
+window.addEventListener('resize', resizeCanvas, false);
+InitAll();
+</script>
+
+</section>
+</body>
+</html>
