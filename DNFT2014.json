@@ -1,0 +1,41 @@
+{
+"DNFT2014":{
+"description": [
+"CardanoTrees DisplayNFT",
+"See it at",
+"https://dnfts.cardanotrees.com/DNFT2014"
+],
+"NLayers": "4",
+"Layers": [
+"78168d51b7b81e155fb13ccc195685d5ca022e9947c95a0cc314f7d6",
+"SM1296",
+"1",
+"()",
+"()",
+"78168d51b7b81e155fb13ccc195685d5ca022e9947c95a0cc314f7d6",
+"SM1296",
+"2",
+"()",
+"(0.1,0.70,0.25)",
+"78168d51b7b81e155fb13ccc195685d5ca022e9947c95a0cc314f7d6",
+"FW0200",
+"1",
+"(1,1,0,0,1440,-10,'L',0,1)",
+"()",
+"78168d51b7b81e155fb13ccc195685d5ca022e9947c95a0cc314f7d6",
+"FP1674",
+"1",
+"()",
+"(0.5,0.95,1,1)"
+],
+"Order":[
+"FW0200",
+"FP1674",
+"SM1296"
+],
+"Version": "1",
+"image": "ipfs://QmZjqyTiKL5qxpyYSRSMUu4zsgCwEWiUvCpgwqx59Y9RNW",
+"mediaType": "image/png",
+"name": "DisplayNFT 2014"
+}
+}

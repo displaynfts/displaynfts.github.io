@@ -1,0 +1,41 @@
+{
+"DNFT2095":{
+"description": [
+"CardanoTrees DisplayNFT",
+"See it at",
+"https://dnfts.cardanotrees.com/DNFT2095"
+],
+"NLayers": "4",
+"Layers": [
+"78168d51b7b81e155fb13ccc195685d5ca022e9947c95a0cc314f7d6",
+"SM1469",
+"1",
+"()",
+"()",
+"78168d51b7b81e155fb13ccc195685d5ca022e9947c95a0cc314f7d6",
+"SM1469",
+"2",
+"()",
+"(0.1,0.70,0.25)",
+"78168d51b7b81e155fb13ccc195685d5ca022e9947c95a0cc314f7d6",
+"FW0939",
+"1",
+"(1,1,0,0,1440,-10,'L',0,1)",
+"()",
+"78168d51b7b81e155fb13ccc195685d5ca022e9947c95a0cc314f7d6",
+"FP0687",
+"1",
+"()",
+"(0.5,0.95,1,1)"
+],
+"Order":[
+"FW0939",
+"FP0687",
+"SM1469"
+],
+"Version": "1",
+"image": "ipfs://QmZjqyTiKL5qxpyYSRSMUu4zsgCwEWiUvCpgwqx59Y9RNW",
+"mediaType": "image/png",
+"name": "DisplayNFT 2095"
+}
+}
